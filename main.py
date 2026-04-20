@@ -1,23 +1,40 @@
+from pyscript import document, display
+
+#class which contains the object instances to display in the list
 class Classmate:
-    def __init__(self, name, section, type, favorite_subject):
+    def __init__(self, name, section, student_type, favorite_subject):
         self.name = name
         self.section = section
-        self.type = type
+        self.type = student_type
         self.favorite_subject = favorite_subject
-    def introduce(self):
-        print(f"{self.name} from {self.section} is a {self.type} who loves {self.favorite_subject}.")
 
-classmate1 = Classmate("Cinnamoroll", "Sanrio", "white puppy", "Cinnamon rolls") 
-classmate1.introduce()
+students = [
+    Classmate("Cinnamoroll", "Sanrio", "white puppy", "Cinnamon rolls"),
+    Classmate("Arianne", "Ruby", "female student", "Chemistry"),
+    Classmate("Caleb", "Ruby", "male student", "Social Studies"),
+    Classmate("Jacob", "Ruby", "male student", "Cars"),
+    Classmate("Ms. Onofre", "Emerald", "Teacher", "ICT")
+]
 
-classmate2 = Classmate("Arianne", "Ruby", "female student", "Chemistry")
-classmate2.introduce() 
+#retrieves the values from the form in html for use in the class as an object
+def classmate_creation(event):
+    name = document.getElementById("name").value
+    section = document.getElementById("section").value
+    student_type = document.getElementById("type").value
+    favorite_subject = document.getElementById("favSubject").value
 
-classmate3 = Classmate("Caleb", "Ruby", "male student", "Social Studies")
-classmate3.introduce()
+    student = Classmate(name, section, student_type, favorite_subject)
+    students.append(student)
 
-classmate4 = Classmate("Jacob", "Ruby", "male student", "Cars") 
-classmate4.introduce()
+    document.getElementById("output").innerText = f"{name} added!"
 
-classmate5 = Classmate("Ms. Onofre", "Emerald", "Teacher", "ICT") 
-classmate5.introduce()
+#displays the list
+def introduce(event):
+    document.getElementById("studentList").innerHTML = ' '
+
+    output = ""
+
+    for student in students:
+        output += f"{student.name} is a {student.type} from {student.section} who loves {student.favorite_subject}.<br><br>"
+
+    document.getElementById("studentList").innerHTML = output
